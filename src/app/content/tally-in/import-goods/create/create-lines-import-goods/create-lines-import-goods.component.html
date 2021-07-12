@@ -1,0 +1,152 @@
+<div class="card-body">
+  <form [formGroup]="addForm">
+    <div style="margin-top: 10px">
+      <button class="btn btn-primary mr-1" (click)="onAdd()">Ekle</button>
+      <button
+        class="btn btn-primary mr-1"
+        (click)="addPurchaseOrderLinesFormArray()"
+      >
+        Yeni Sira Ekle
+      </button>
+    </div>
+    <div formArrayName="purchaseOrderLines">
+      <p-table
+        [value]="purchaseOrderLines.controls"
+        [style]="{ height: 'fit-content' }"
+        [scrollable]="true"
+        styleClass="p-datatable-sm p-datatable-gridlines"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 60px">Sil</th>
+            <th style="width: 300px">Urun Ismi</th>
+            <th style="width: 90px">Kdv</th>
+            <th style="width: 90px">Gum.Oran</th>
+            <th style="width: 135px">Quantity</th>
+            <th style="width: 135px">Birim Fiyat</th>
+            <th style="width: 135px">Tutar</th>
+            <th style="width: 135px">Nakliyeci Tutar</th>
+            <th style="width: 135px">Akciza</th>
+            <th style="width: 135px">Rivlersim</th>
+            <th style="width: 135px">Iskonto Orani</th>
+            <th style="width: 135px">Brut Birim Fiyat</th>
+            <th style="width: 135px">Brut Tutar</th>
+            <!-- <th style="width: 20%">Gender</th>
+            <th>Date Of Birth</th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-controls let-i="rowIndex">
+          <tr [formGroupName]="i">
+            <td style="width: 60px">
+              <button
+                type="button"
+                ngbPopover="Sira Silme"
+                triggers="mouseenter:mouseleave"
+                class="btn btn-danger btn-sm"
+                (click)="removePurchaseOrderLinesFormArray(i)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </td>
+            <td style="width: 300px">
+              <ng-select
+                (change)="getProductId(i); calculate(i, unitPrice.value)"
+                [items]="products"
+                bindLabel="name"
+                bindValue="id"
+                formControlName="productId"
+              >
+              </ng-select>
+            </td>
+            <td style="width: 90px">
+              <select
+                (change)="calculate(i, unitPrice.value)"
+                class="form-control form-control-sm"
+                formControlName="vatId"
+              >
+                <option
+                  *ngFor="let vat of vats; let dataIndex = index"
+                  [ngValue]="vat.id"
+                >
+                  {{ vat.rate }}
+                </option>
+              </select>
+            </td>
+            <td style="width: 90px">
+              <input
+                formControlName="customsTaxRate"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                formControlName="quantity"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                #unitPrice
+                formControlName="unitPrice"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                #amount
+                formControlName="amount"
+                class="form-control"
+                (keyup)="amountToUnitPrice(amount.value, i)"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                formControlName="transporterAmount"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                formControlName="exciseTaxAmount"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                formControlName="reEvaluationAmount"
+                (keyup)="calculate(i, unitPrice.value)"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input
+                (keyup)="calculate(i, unitPrice.value)"
+                formControlName="discountRate"
+                class="form-control"
+              />
+            </td>
+            <td style="width: 135px">
+              <input formControlName="grossUnitPrice" class="form-control" />
+            </td>
+            <td style="width: 135px">
+              <input formControlName="grossAmount" class="form-control" />
+            </td>
+
+            <!-- <td style="width: 135px">
+              <p-dropdown [options]="genderOptions" formControlName="gender"></p-dropdown>
+            </td> -->
+            <!-- <td style="width: 135px">
+              <p-calendar appendTo="body" formControlName="dob" dateFormat="dd/mm/yy" showIcon="true"
+                showButtonBar="true" [maxDate]="maxDateValue"></p-calendar>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </form>
+</div>

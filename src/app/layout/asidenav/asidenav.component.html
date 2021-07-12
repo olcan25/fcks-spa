@@ -1,0 +1,224 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="" *ngFor="let company of companies | slice: 0:1" class="brand-link">
+    <img
+      src="{{ company.imageUrl }}"
+      alt="AdminLTE Logo"
+      class="brand-image img-thumbnail elevation-3"
+      style="opacity: 0.8"
+    />
+    <span class="font-weight-light">.</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <!-- <div class="image">
+        <img src="" class="img-circle elevation-2" alt="User Image" />
+      </div> -->
+      <div *ngFor="let company of companies | slice: 0:1" class="info">
+        <!-- <a href="#" class="d-block">oLCAN</a> -->
+        <span class="brand-text font-weight-bold text-white">{{
+          company.name
+        }}</span>
+      </div>
+    </div>
+
+    <!-- SidebarSearch Form -->
+    <div class="form-inline">
+      <div class="input-group" data-widget="sidebar-search">
+        <input
+          class="form-control form-control-sidebar"
+          type="search"
+          placeholder=""
+          aria-label="Search"
+          placeholder="Menu"
+          disabled
+        />
+        <div class="input-group-append">
+          <!-- <button class="btn btn-sidebar">
+            <i class="fas fa-search fa-fw"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas far fa-building"></i>
+            <p>
+              Sirket Islemleri
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/companies']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sirket Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/warehouses']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Depo Bilgileri</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas far fas fa-university"></i>
+            <p>
+              Banka Islemleri
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/banks']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Banka Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/companies/bankaccounts']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sirket Baka Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/partners/bankaccounts']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Partner Banka Bilgileri</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/partners']" class="nav-link">
+            <i class="nav-icon far fas fa-handshake"></i>
+            <p>Partner Islemleri</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas far fas fa-barcode"></i>
+            <p>
+              Urun Islemleri
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/products']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Urun Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/unitofmeasures']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Urun Birim Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/categories']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Kategori Bilgileri</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas far fas fa-chart-line"></i>
+            <p>
+              Rapor Islemleri
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/reports']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Rapor Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/reports/conditionofaccounts']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Hesap Rapor Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/reports/conditionofpartners']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Parner Rapor Bilgileri</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/reports/conditionofproducts']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Urun Rapor Bilgileri</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/accounts']" class="nav-link">
+            <i class="nav-icon far fas fa-address-card"></i>
+            <p>Hesaplar</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/purchaseorders']" class="nav-link">
+            <i class="nav-icon far fas fa-shopping-basket"></i>
+            <p>Alis Kayitlari</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/wholesaleorders']" class="nav-link">
+            <i class="nav-icon far fas fa-shopping-cart"></i>
+            <p>Satis Kayitlari</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/payments']" class="nav-link">
+            <i class="nav-icon far fas fa-cash-register"></i>
+            <p>Odeme Kayitlari</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/ledgeraccounts']" class="nav-link">
+            <i class="nav-icon far fas fa-book"></i>
+            <p>Yovmiye Kayitlari</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

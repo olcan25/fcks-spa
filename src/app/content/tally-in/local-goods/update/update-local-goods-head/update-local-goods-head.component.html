@@ -1,0 +1,133 @@
+<form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Yeni Alis Siparisi</h5>
+      <button type="button" class="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <fieldset formGroupName="ledger">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Tarih</label>
+          <div class="col-sm-9">
+            <input
+              formControlName="registerDate"
+              class="form-control"
+              type="date"
+            />
+          </div>
+        </div>
+        <!-- <div
+          *ngIf="
+            (getControlLedger?.get('registerDate')?.touched ||
+              getControlLedger?.get('registerDate')?.dirty) &&
+            getControlLedger?.get('registerDate')?.invalid
+          "
+          class="text-danger"
+        >
+          <div *ngIf="getControlLedger?.get('registerDate')?.errors?.required">
+            Zorunlu Alan
+          </div>
+        </div> -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Aciklama</label>
+          <div class="col-sm-9">
+            <input class="form-control" formControlName="description" />
+          </div>
+        </div>
+      </fieldset>
+      <fieldset formGroupName="purchaseOrder">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Fatura No</label>
+          <div class="col-sm-9">
+            <input class="form-control" formControlName="invoiceNumber" />
+          </div>
+        </div>
+        <!-- <div
+          *ngIf="
+            (getControlPurchaseOrder?.get('invoiceNumber')?.touched ||
+              getControlPurchaseOrder?.get('invoiceNumber')?.dirty) &&
+            getControlPurchaseOrder?.get('invoiceNumber')?.invalid
+          "
+          class="text-danger"
+        >
+          <div
+            *ngIf="
+              getControlPurchaseOrder?.get('invoiceNumber')?.errors?.required
+            "
+          >
+            Zorunlu Alan
+          </div>
+        </div> -->
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Note</label>
+          <div class="col-sm-9">
+            <textarea
+              class="form-control"
+              formControlName="note"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Partner</label>
+          <div class="col-sm-9">
+            <ng-select
+              [items]="partners"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="partnerId"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <!-- <div
+          *ngIf="
+            (getControlPurchaseOrder?.get('partnerId')?.touched ||
+              getControlPurchaseOrder?.get('partnerId')?.dirty) &&
+            getControlPurchaseOrder?.get('partnerId')?.invalid
+          "
+          class="text-danger"
+        >
+          <div *ngIf="getControlPurchaseOrder?.get('partnerId')?.errors?.min">
+            Zorunlu Alan
+          </div>
+        </div> -->
+        <!-- <div class="form-check d-flex justify-content-center">
+          <label class="form-check-label" for="flexCheckChecked">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="isPaid"
+            />
+            Fatura Odendi Mi?
+          </label>
+        </div> -->
+      </fieldset>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Depo</label>
+        <div class="col-sm-9">
+          <ng-select
+            [items]="warehouses"
+            bindLabel="name"
+            bindValue="id"
+            [formControl]="warehouseId"
+          >
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button type="submit" class="btn btn-outline-success">Ekle</button>
+    </div>
+  </div>
+</form>

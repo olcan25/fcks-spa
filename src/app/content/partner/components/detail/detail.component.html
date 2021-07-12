@@ -1,0 +1,138 @@
+<form [formGroup]="detailForm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Partner Detay</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-row">
+      <div class="form-group col-md-12">
+        <label>Partner Ismi</label>
+        <input
+          class="form-control"
+          formControlName="name"
+          placeholder="Sirket Ismi"
+        />
+      </div>
+    </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Partner Kimlik Numarasi</label>
+          <input
+            class="form-control"
+            formControlName="uniqueIdentificationNumber"
+            placeholder="Sirket Kimlik Numarasi"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label>Partner KDV Numarasi</label>
+          <input
+            class="form-control"
+            formControlName="vatNumber"
+            placeholder="Sirket KDV Numarasi"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label >Partner Tipi</label>
+          <select class="form-control" formControlName="partnerTypeId">
+            <option *ngFor="let partnerType of partnerTypes" [ngValue]="partnerType.id">{{partnerType.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label>Ulke</label>
+          <input
+          class="form-control"
+          formControlName="country"
+        />
+        </div>
+        <div class="form-group col-md-5">
+          <label>Sehir</label>
+          <input
+            class="form-control"
+            formControlName="city"
+            placeholder="Sehir"
+          />
+        </div>
+        <div class="form-group col-md-2">
+          <label>Zip Kod</label>
+          <input
+            class="form-control"
+            formControlName="zipCode"
+            placeholder="Zip Kod"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="exampleFormControlTextarea1">Adres</label>
+          <textarea class="form-control" formControlName="address" rows="3"></textarea>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="exampleFormControlTextarea1">Ilave Bilgiler</label>
+          <textarea
+            class="form-control"
+            formControlName="additionalInformation"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Iltesim Kisi</label>
+          <input
+            class="form-control"
+            formControlName="contactName"
+            placeholder="Iltesim Kisi"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label>Telefon</label>
+          <input
+            class="form-control"
+            formControlName="phone"
+            placeholder="Telefon"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label>Fax</label>
+          <input
+            class="form-control"
+            formControlName="fax"
+            placeholder="Fax"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Web Site</label>
+          <input
+            class="form-control"
+            formControlName="website"
+            placeholder="Web Site"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <label>Email</label>
+          <input
+            class="form-control"
+            formControlName="email"
+            placeholder="Email"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+          type="button"
+          (click)="dismissModal()"
+          class="btn btn-outline-warning"
+        >
+          Kapat
+        </button>
+    </div>
+  </div>
+</form>

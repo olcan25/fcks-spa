@@ -1,0 +1,47 @@
+<h4>
+  Yeni Sirket
+  <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+    Ekle
+  </button>
+</h4>
+<table class="table table-striped">
+  <thead>
+    <th>#</th>
+    <th>Sirket Ismi</th>
+    <th>Sirket Numarasi</th>
+    <th>Sirket Kdv Numarasi</th>
+    <th>Periyod</th>
+    <th>Logo</th>
+    <th>Islemler</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of companies; trackBy: trackByFn">
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.uniqueIdentificationNumber }}</td>
+      <td>{{ item.vatNumber }}</td>
+      <td>{{ item.period }}</td>
+      <td><img src="{{ item.imageUrl }}" height="20" width="80" /></td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Sirket Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Sirket Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning"
+          (click)="openUpdateModal(item.id)"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

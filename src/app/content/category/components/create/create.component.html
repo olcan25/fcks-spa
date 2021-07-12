@@ -1,0 +1,43 @@
+<!-- Modal -->
+<form [formGroup]="addForm" (ngSubmit)="onAdd()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Kategori Ekle</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group col-md-12">
+        <label>Kategori Ismi</label>
+        <input class="form-control" formControlName="name" />
+        <div
+          *ngIf="
+            (getControl.name.touched || getControl.name.dirty) &&
+            getControl.name.invalid
+          "
+          class="text-danger"
+        >
+          <div *ngIf="getControl.name.errors?.required">Zorunlu Alan</div>
+          <div *ngIf="getControl.name.errors?.maxlength">
+            Maksimum 100 Karakter
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label>Kategori Aciklamasi</label>
+        <input class="form-control" formControlName="description" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button type="submit" class="btn btn-outline-success">Ekle</button>
+    </div>
+  </div>
+</form>

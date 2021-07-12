@@ -1,0 +1,41 @@
+<h4>
+  Banka Kategori
+  <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+    Ekle
+  </button>
+</h4>
+<table class="table table-striped">
+  <thead>
+    <th>#</th>
+    <th>Banka Ismi</th>
+    <th>Banka Kisa Ismi</th>
+    <th>Islemler</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of banks; trackBy: trackByFn">
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.shortName }}</td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Banka Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Banka Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning"
+          (click)="openUpdateModal(item.id)"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

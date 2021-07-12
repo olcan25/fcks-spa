@@ -1,0 +1,121 @@
+<!-- Modal -->
+<form [formGroup]="addForm" (ngSubmit)="onAdd()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Yeni Odeme</h5>
+      <button type="button" class="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <fieldset formGroupName="payment">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Odeme Turu</label>
+          <div class="col-sm-9">
+            <ng-select
+              [items]="paymentTypes"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="paymentTypeId"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset formGroupName="ledger">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Tarih</label>
+          <div class="col-sm-9">
+            <input
+              formControlName="registerDate"
+              class="form-control"
+              type="date"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Aciklama</label>
+          <div class="col-sm-9">
+            <input class="form-control" formControlName="description" />
+          </div>
+        </div>
+      </fieldset>
+      <fieldset formGroupName="payment">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Note</label>
+          <div class="col-sm-9">
+            <textarea
+              class="form-control"
+              formControlName="note"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Partner</label>
+          <div class="col-sm-9">
+            <ng-select
+              [items]="partners"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="partnerId"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div><span>Ismi: </span>{{ item.name }}</div>
+                <small
+                  ><b>NUI:</b> {{ item.uniqueIdentificationNumber }} |
+                  <b>NTVSH:</b> {{ item.vatNumber }}</small
+                >
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Hesap</label>
+          <div class="col-sm-9">
+            <ng-select
+              [items]="accounts"
+              bindLabel="name"
+              bindValue="id"
+              formControlName="accountId"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div><span>Ismi: </span>{{ item.name }}</div>
+                <small><b>Code:</b> {{ item.id }}</small>
+              </ng-template>
+            </ng-select>
+          </div>
+          <!-- <div class="col-sm-9">
+            <select class="form-control" formControlName="partnerTypeId">
+              <option *ngFor="let account of accounts" [ngValue]="account.id">
+                {{ account.id }} {{ account.name }}
+              </option>
+            </select>
+          </div> -->
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Tutar</label>
+          <div class="col-sm-9">
+            <input formControlName="amount" class="form-control" />
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button
+        [disabled]="!addForm.valid"
+        type="submit"
+        class="btn btn-outline-success"
+      >
+        Ekle
+      </button>
+    </div>
+  </div>
+</form>

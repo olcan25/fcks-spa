@@ -1,0 +1,209 @@
+<div class="container-fluid">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>{{ partner.name }}</h3>
+
+          <p>Urun Ismi</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>{{ cardOfPartners | sumReduce: "debt" }}</h3>
+
+          <p>Toplam Debi</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>{{ cardOfPartners | sumReduce: "credit" }}</h3>
+
+          <p>Toplam Kredi</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>
+            {{
+              (cardOfPartners | sumReduce: "debt") -
+                (cardOfPartners | sumReduce: "credit")
+            }}
+          </h3>
+
+          <p>Toplam Bakiye</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <input #startDate type="date" class="form-control" />
+    </div>
+    <div class="col-md-3">
+      <input #endDate type="date" class="form-control" />
+    </div>
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-primary mb-3"
+        (click)="loadAllBetweenDate(startDate.value, endDate.value)"
+      >
+        Ara
+      </button>
+    </div>
+  </div>
+
+  <p-table
+    #dt
+    [value]="cardOfPartners"
+    sortMode="multiple"
+    dataKey="id"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    [rowTrackBy]="trackByFn"
+  >
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex">
+        <button
+          pButton
+          label="Clear"
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          class="btn btn-info"
+          (click)="clear(dt)"
+        >
+          Filteri Temzile
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="ledgerId">
+          <p-columnFilter
+            type="numeric"
+            field="ledgerId"
+            display="menu"
+          ></p-columnFilter>
+          ID
+          <p-sortIcon field="ledgerId"></p-sortIcon>
+        </th>
+        <th pSortableColumn="registerDate">
+          <p-columnFilter
+            type="date"
+            field="registerDate"
+            display="menu"
+          ></p-columnFilter>
+          Kayit Tarihi
+          <p-sortIcon field="registerDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="invoiceNumber">
+          <p-columnFilter
+            type="text"
+            field="invoiceNumber"
+            display="menu"
+          ></p-columnFilter>
+          Fatura No
+          <p-sortIcon field="invoiceNumber"></p-sortIcon>
+        </th>
+        <th pSortableColumn="debt">
+          <p-columnFilter
+            type="numeric"
+            field="debt"
+            display="menu"
+          ></p-columnFilter>
+          Debi
+          <p-sortIcon field="debt"></p-sortIcon>
+        </th>
+        <th pSortableColumn="credit">
+          <p-columnFilter
+            type="numeric"
+            field="credit"
+            display="menu"
+          ></p-columnFilter>
+          Kredi
+          <p-sortIcon field="credit"></p-sortIcon>
+        </th>
+        <th pSortableColumn="balance">
+          <p-columnFilter
+            type="numeric"
+            field="balance"
+            display="menu"
+          ></p-columnFilter>
+          Saldo
+          <p-sortIcon field="balance"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of cols" [ngSwitch]="col.field">
+          <input
+            class="form-control input-sm"
+            pInputText
+            type="text"
+            (keyup)="
+              dt.filter(
+                $any($event.target).value,
+                col.field,
+                col.filterMatchMode
+              )
+            "
+          />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+      <tr>
+        <!-- <td *ngFor="let col of cols">
+                  {{col.data ? (item[col.field]| date : col.format) : item[col.field]}}
+          </td> -->
+        <td>
+          {{ item.ledgerId }}
+        </td>
+        <td>
+          {{ item.registerDate | date: "dd/MM/yyyy" }}
+        </td>
+        <td>
+          {{ item.invoiceNumber }}
+        </td>
+        <td>
+          <p class="font-weight-bold">{{ item.debt | number: "1.0-2" }}</p>
+        </td>
+        <td>
+          <p class="font-weight-bold">{{ item.credit | number: "1.0-2" }}</p>
+        </td>
+        <td>
+          <p class="font-weight-bold">
+            {{ totalBalance(i) | number: "1.0-2" }}
+          </p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

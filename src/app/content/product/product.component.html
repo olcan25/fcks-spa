@@ -1,0 +1,118 @@
+<!-- <h4>Yeni Urun <button type="button" class="btn btn-primary" (click)="openCreateModal()">Ekle</button></h4> -->
+<section class="content">
+  <div class="container-fluid">
+    <h5 class="mb-2">Urun Bilgi Kutucuklari</h5>
+    <div class="row">
+      <div
+        type="button"
+        (click)="openCreateModal()"
+        class="col-md-3 col-sm-6 col-12"
+      >
+        <div class="info-box">
+          <span class="info-box-icon bg-warning"
+            ><i class="far fa-copy"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Yeni Urun</span>
+            <span class="info-box-number">Ekle</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-info"
+            ><i class="fas fa-barcode"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Urun Sayisi</span>
+            <span class="info-box-number">{{ dtoProducts.length }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-success"
+            ><i class="far fa-flag"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Bookmarks</span>
+            <span class="info-box-number">410</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger"
+            ><i class="far fa-star"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Likes</span>
+            <span class="info-box-number">93,139</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+</section>
+<table class="table table-striped">
+  <thead>
+    <th>#</th>
+    <th>Urun Ismi</th>
+    <th>Olcu Birim</th>
+    <th>KDV</th>
+    <th>Urun Tipi</th>
+    <th>Islemler</th>
+  </thead>
+  <tbody *ngIf="dtoProducts?.length != 0">
+    <tr *ngFor="let item of dtoProducts; let i = index; trackBy: trackByFn">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.unitOfMeasureName }}</td>
+      <td>{{ item.vatRate }}</td>
+      <td>{{ item.productTypeName }}</td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Urun Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Urun Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning"
+          (click)="openUpdateModal(item.id)"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="dtoProducts?.length == 0">
+    <tr>
+      <td colspan="12" class="no-data-available">Veri Yok</td>
+    </tr>
+  </tbody>
+</table>

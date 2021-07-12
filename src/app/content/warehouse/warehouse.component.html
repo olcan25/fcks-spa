@@ -1,0 +1,49 @@
+<h4>
+  Yeni Depo
+  <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+    Ekle
+  </button>
+</h4>
+<table class="table table-striped">
+  <thead>
+    <th>#</th>
+    <th>Depo Ismi</th>
+    <th>Sirket Isme</th>
+    <th>Ulke Isme</th>
+    <th>Sehir Isme</th>
+    <th>Adres</th>
+    <th>Zip Kod</th>
+    <th>Islemler</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of dtoWarehouses; trackBy: trackByFn">
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.companyName }}</td>
+      <td>{{ item.country }}</td>
+      <td>{{ item.city }}</td>
+      <td>{{ item.addressDetail }}</td>
+      <td>{{ item.zipCode }}</td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Depo Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Depo Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning"
+          (click)="openUpdateModal(item.id)"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

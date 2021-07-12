@@ -1,0 +1,347 @@
+<!-- Modal -->
+
+<form [formGroup]="addForm" (ngSubmit)="onAdd()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Partner Ekle</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label>Partner Ismi</label>
+          <input
+            class="form-control"
+            formControlName="name"
+            placeholder="Sirket Ismi"
+          />
+          <div
+            *ngIf="
+              (getControl.name.touched || getControl.name.dirty) &&
+              getControl.name.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.name.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.name.errors?.maxlength">
+              Maksimum 250 Karakter
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Partner Kimlik Numarasi</label>
+          <input
+            class="form-control"
+            formControlName="uniqueIdentificationNumber"
+            placeholder="Sirket Kimlik Numarasi"
+          />
+          <div
+            *ngIf="
+              (getControl.uniqueIdentificationNumber.touched ||
+                getControl.uniqueIdentificationNumber.dirty) &&
+              getControl.uniqueIdentificationNumber.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.uniqueIdentificationNumber.errors?.required">
+              Zorunlu Alan
+            </div>
+            <div
+              *ngIf="
+                getControl.uniqueIdentificationNumber.errors?.maxlength ||
+                getControl.uniqueIdentificationNumber.errors?.minlength
+              "
+            >
+              9 Karakter Olmali
+            </div>
+            <div
+              *ngIf="getControl.uniqueIdentificationNumber.errors?.invalidUID"
+            >
+              8 veya 6 ile Baslamli
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Partner KDV Numarasi</label>
+          <input
+            class="form-control"
+            formControlName="vatNumber"
+            placeholder="Sirket KDV Numarasi"
+          />
+          <div
+            *ngIf="
+              (getControl.vatNumber.touched || getControl.vatNumber.dirty) &&
+              getControl.vatNumber.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.vatNumber.errors?.maxlength ||
+                getControl.vatNumber.errors?.minlength
+              "
+            >
+              9 Karakter Olmali
+            </div>
+            <div *ngIf="getControl.vatNumber.errors?.invalidVat">
+              3 ile Baslamli
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Partner Tipi</label>
+          <select class="form-control" formControlName="partnerTypeId">
+            <option
+              *ngFor="let partnerType of partnerTypes"
+              [ngValue]="partnerType.id"
+            >
+              {{ partnerType.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              (getControl.partnerTypeId.touched ||
+                getControl.partnerTypeId.dirty) &&
+              getControl.partnerTypeId.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.partnerTypeId.errors?.min">Zorunlu Alan</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label>Ulke</label>
+          <ng-select
+            [items]="countries"
+            bindLabel="name"
+            bindValue="name"
+            formControlName="country"
+          >
+          </ng-select>
+          <div
+            *ngIf="
+              (getControl.country.touched || getControl.country.dirty) &&
+              getControl.country.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.country.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.country.errors?.maxlength">
+              100 Karakter Olmali
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-5">
+          <label>Sehir</label>
+          <input
+            class="form-control"
+            formControlName="city"
+            placeholder="Sehir"
+          />
+          <div
+            *ngIf="
+              (getControl.city.touched || getControl.city.dirty) &&
+              getControl.city.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.city.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.city.errors?.maxlength">
+              Maksimum 100 Karakter Olmali
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Zip Kod</label>
+          <input
+            class="form-control"
+            formControlName="zipCode"
+            placeholder="Zip Kod"
+          />
+          <div
+            *ngIf="
+              (getControl.zipCode.touched || getControl.zipCode.dirty) &&
+              getControl.zipCode.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.zipCode.errors?.maxlength ||
+                getControl.zipCode.errors?.minlength
+              "
+            >
+              5 Karakterli
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Adres</label>
+          <textarea
+            class="form-control"
+            formControlName="address"
+            rows="3"
+          ></textarea>
+          <div
+            *ngIf="
+              (getControl.address.touched || getControl.address.dirty) &&
+              getControl.address.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.address.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.address.errors?.maxlength">
+              Maksimum 250 Karakter Olmali
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Ilave Bilgiler</label>
+          <textarea
+            class="form-control"
+            formControlName="additionalInformation"
+            rows="3"
+          ></textarea>
+          <div
+            *ngIf="
+              (getControl.additionalInformation.touched ||
+                getControl.additionalInformation.dirty) &&
+              getControl.additionalInformation.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="getControl.additionalInformation.errors?.maxlength">
+              Maksimum 250 Karakter Olmali
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Iltesim Kisi</label>
+          <input
+            class="form-control"
+            formControlName="contactName"
+            placeholder="Iltesim Kisi"
+          />
+          <div
+            *ngIf="
+              (getControl.contactName.touched ||
+                getControl.contactName.dirty) &&
+              getControl.contactName.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.contactName.errors?.maxlength ||
+                getControl.contactName.errors?.minlength
+              "
+            >
+              3 ile 40 Karakter Olmali
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Telefon</label>
+          <input
+            class="form-control"
+            formControlName="phone"
+            placeholder="Telefon"
+          />
+          <div
+            *ngIf="
+              (getControl.phone.touched || getControl.phone.dirty) &&
+              getControl.phone.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.phone.errors?.maxlength ||
+                getControl.phone.errors?.minlength
+              "
+            >
+              3 ile 25 Karakter Olmali
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Fax</label>
+          <input class="form-control" formControlName="fax" placeholder="Fax" />
+          <div
+            *ngIf="
+              (getControl.fax.touched || getControl.fax.dirty) &&
+              getControl.fax.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.fax.errors?.maxlength ||
+                getControl.fax.errors?.minlength
+              "
+            >
+              3 ile 25 Karakter Olmali
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Web Site</label>
+          <input
+            class="form-control"
+            formControlName="website"
+            placeholder="Web Site"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <label>Email</label>
+          <input
+            class="form-control"
+            formControlName="email"
+            placeholder="Email"
+          />
+          <div
+            *ngIf="
+              (getControl.email.touched || getControl.email.dirty) &&
+              getControl.email.invalid
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                getControl.email.errors?.maxlength ||
+                getControl.email.errors?.minlength
+              "
+            >
+              5 ile 50 Karakter Olmali
+            </div>
+            <div *ngIf="getControl.email.errors?.email">
+              @ Karakteri olmalidir.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button type="submit" class="btn btn-outline-success">Ekle</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,47 @@
+<form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Birim Duzenle</h5>
+        <button type="button" class="close" (click)="dismissModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col-md-12">
+          <label>Birim Ismi</label>
+          <input
+            class="form-control"
+            formControlName="name"
+            placeholder="Banka Ismi"
+          />
+          <div *ngIf="(getControl.name.touched||getControl.name.dirty) && getControl.name.invalid" class="text-danger">
+            <div *ngIf="getControl.name.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.name.errors?.maxlength">Maksimum 3 Karakter</div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label>Birim Kisaltmasi</label>
+          <input
+            class="form-control"
+            formControlName="shortName"
+            placeholder="Banka Kisaltmasi"
+          />
+          <div *ngIf="(getControl.shortName.touched||getControl.shortName.dirty) && getControl.shortName.invalid" class="text-danger">
+            <div *ngIf="getControl.shortName.errors?.required">Zorunlu Alan</div>
+            <div *ngIf="getControl.shortName.errors?.maxlength">Maksimum 3 Karakter</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          (click)="dismissModal()"
+          class="btn btn-outline-warning"
+        >
+          Iptal
+        </button>
+        <button type="submit" class="btn btn-outline-success">Duzenle</button>
+      </div>
+    </div>
+  </form>
+  

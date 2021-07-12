@@ -1,0 +1,234 @@
+<div class="card m-3">
+  <div class="row">
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>150</h3>
+
+          <p>Sira Sayisi</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>{{ sumTotals[2] | number: "1.0-5" }}</h3>
+
+          <p>Vlera Pa TVSH</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>{{ sumTotals[1] | number: "1.0-5" }}</h3>
+
+          <p>Vlera TVSH</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+      <!-- small box -->
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>{{ sumTotals[0] | number: "1.0-2" }}</h3>
+
+          <p>Vlera Me TVSH</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="updateForm">
+        <div style="margin-top: 10px">
+          <button
+            [disabled]="updateForm.invalid"
+            class="btn btn-primary mr-1"
+            (click)="onUpdate()"
+          >
+            Duzenle
+          </button>
+          <button
+            class="btn btn-primary mr-1"
+            (click)="addWholeSaleOrderLinesFormArray()"
+          >
+            Yeni Sira Ekle
+          </button>
+        </div>
+        <div formArrayName="wholeSaleOrderLines">
+          <p-table
+            [value]="wholeSaleOrderLines.controls"
+            [style]="{ height: 'fit-content' }"
+            [scrollable]="true"
+            styleClass="p-datatable-sm p-datatable-gridlines"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 60px">Sil</th>
+                <th style="width: 300px">Urun Ismi</th>
+                <th style="width: 90px">Kdv Orani</th>
+                <th style="width: 120px">Quantity</th>
+                <th style="width: 120px">Birim Fiyat</th>
+                <th style="width: 120px">B. Fiyat KDV</th>
+                <th style="width: 120px">KDV'li B. Fiyat</th>
+                <th style="width: 120px">Iskonto Orani</th>
+                <th style="width: 120px">Iskonto Degeri</th>
+                <th style="width: 120px">Tutar</th>
+                <th style="width: 120px">T. KDV Degeeri</th>
+                <th style="width: 120px">Iskonto Tutari</th>
+                <th style="width: 120px">Toplam Tutar</th>
+                <!-- <th style="width: 20%">Gender</th>
+              <th>Date Of Birth</th> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-controls let-i="rowIndex">
+              <tr [formGroupName]="i">
+                <td style="width: 60px">
+                  <button
+                    type="button"
+                    ngbPopover="Sira Silme"
+                    triggers="mouseenter:mouseleave"
+                    class="btn btn-danger btn-sm"
+                    (click)="removeWholeSaleOrderLinesFormArray(i)"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </td>
+                <td style="width: 300px">
+                  <ng-select
+                    (change)="getProductId(i)"
+                    [items]="products"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="productId"
+                    [ngClass]="{
+                      'is-invalid':
+                        wholeSaleOrderLines.controls[i].get('productId')
+                          ?.errors &&
+                        (wholeSaleOrderLines.controls[i].get('productId')
+                          ?.touched ||
+                          wholeSaleOrderLines.controls[i].get('productId')
+                            ?.dirty)
+                    }"
+                  >
+                  </ng-select>
+                </td>
+                <td style="width: 90px">
+                  <select
+                    #vatId
+                    (change)="calculateUnitPirceWithVat(i, vatId.value)"
+                    class="form-control form-control-sm"
+                    formControlName="vatId"
+                    [ngClass]="{
+                      'is-invalid':
+                        wholeSaleOrderLines.controls[i].get('vatId')?.errors &&
+                        (wholeSaleOrderLines.controls[i].get('vatId')
+                          ?.touched ||
+                          wholeSaleOrderLines.controls[i].get('vatId')?.dirty)
+                    }"
+                  >
+                    <option
+                      *ngFor="let vat of vats; let dataIndex = index"
+                      [ngValue]="vat.id"
+                    >
+                      {{ vat.rate }}
+                    </option>
+                  </select>
+                </td>
+                <td style="width: 120px">
+                  <input
+                    formControlName="quantity"
+                    #quantity
+                    (keyup)="calculateUnitPirceWithVat(i, quantity.value)"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input formControlName="unitPrice" class="form-control" />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    formControlName="unitPriceVatValue"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    #unitPriceWithVat
+                    (keyup)="
+                      calculateUnitPirceWithVat(i, unitPriceWithVat.value)
+                    "
+                    formControlName="unitPriceWithVat"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    #discountRate
+                    (keyup)="calculateUnitPirceWithVat(i, discountRate.value)"
+                    formControlName="discountRate"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    formControlName="unitPriceDiscountValue"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input formControlName="amount" class="form-control" />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    formControlName="amountVatValue"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    formControlName="amountDiscountValue"
+                    class="form-control"
+                  />
+                </td>
+                <td style="width: 120px">
+                  <input
+                    #amountWithVat
+                    (keyup)="calculateAmountWithVat(i, amountWithVat.value)"
+                    class="form-control"
+                    formControlName="amountWithVat"
+                  />
+                </td>
+
+                <!-- <td style="width: 120px">
+                <p-dropdown [options]="genderOptions" formControlName="gender"></p-dropdown>
+              </td> -->
+                <!-- <td style="width: 120px">
+                <p-calendar appendTo="body" formControlName="dob" dateFormat="dd/mm/yy" showIcon="true"
+                  showButtonBar="true" [maxDate]="maxDateValue"></p-calendar>
+              </td> -->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

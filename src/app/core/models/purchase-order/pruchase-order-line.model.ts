@@ -1,0 +1,28 @@
+export class PurchaseOrderLine {
+  id: number = 0;
+  purchaseOrderId: number = 0;
+  productId: number = 0;
+  warehouseId: number = 0;
+  vatId: number = 0;
+  discountRate: number = 0;
+  customsTaxRate: number = 0;
+  quantity: number = 0;
+  unitPrice: number = 0;
+  discountUnitPrice: number = 0;
+  vatUnitPrice: number = 0;
+  customsTaxUnitPrice: number = 0;
+  exciseTaxUnitPrice: number = 0;
+  transporterUnitPrice: number = 0;
+  reEvaluationUnitPrice: number = 0;
+  grossWithOutVatUnitPrice: number = 0;
+  grossUnitPrice: number = 0;
+  amount: number = 0;
+  discountAmount: number = 0;
+  vatAmount: number = 0;
+  customsTaxAmount: number = 0;
+  exciseTaxAmount: number = 0;
+  transporterAmount: number = 0;
+  reEvaluationAmount: number = 0;
+  grossWithOutVatAmount: number = 0;
+  grossAmount: number = 0;
+}

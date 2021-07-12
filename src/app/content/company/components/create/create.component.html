@@ -1,0 +1,98 @@
+<!-- Modal -->
+<form [formGroup]="addForm" (ngSubmit)="onAdd()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Sirket Ekle</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group col-md-12">
+        <label>Sirket Ismi</label>
+        <input
+          class="form-control"
+          formControlName="name"
+          placeholder="Sirket Ismi"
+        />
+        <div *ngIf="(getControl.name.touched||getControl.name.dirty) && getControl.name.invalid" class="text-danger">
+          <div *ngIf="getControl.name.errors?.required">Zorunlu Alan</div>
+          <div *ngIf="getControl.name.errors?.maxlength">Maksimum 500 Karakter</div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label>Sirket Kimlik Numarasi</label>
+        <input
+          class="form-control"
+          formControlName="uniqueIdentificationNumber"
+          placeholder="Sirket Kimlik Numarasi"
+        />
+        <div
+          *ngIf="
+            (getControl.uniqueIdentificationNumber.touched ||
+              getControl.uniqueIdentificationNumber.dirty) &&
+            getControl.uniqueIdentificationNumber.invalid
+          "
+          class="text-danger"
+        >
+          <div *ngIf="getControl.uniqueIdentificationNumber.errors?.required">
+            Zorunlu Alan
+          </div>
+          <div *ngIf="getControl.uniqueIdentificationNumber.errors?.maxlength">
+            Maksimum 9 Karakter
+          </div>
+          <div *ngIf="getControl.uniqueIdentificationNumber.errors?.invalidUID">
+            8 veya 6 ile Baslamali
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label>Sirket KDV Numarasi</label>
+        <input
+          class="form-control"
+          formControlName="vatNumber"
+          placeholder="Sirket KDV Numarasi"
+        />
+        <div
+          *ngIf="
+            (getControl.vatNumber.touched || getControl.vatNumber.dirty) &&
+            getControl.vatNumber.invalid
+          "
+          class="text-danger"
+        >
+          <div *ngIf="getControl.vatNumber.errors?.required">Zorunlu Alan</div>
+          <div *ngIf="getControl.vatNumber.errors?.maxlength">
+            Maksimum 9 Karakter
+          </div>
+          <div *ngIf="getControl.vatNumber.errors?.invalidVat">
+            3 ile Baslamali
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label>Periyod</label>
+        <input
+          class="form-control"
+          formControlName="period"
+          placeholder="Periyod"
+        />
+        <div *ngIf="(getControl.period.touched||getControl.period.dirty) && getControl.period.invalid" class="text-danger">
+          <div *ngIf="getControl.period.errors?.required">Zorunlu Alan</div>
+          <div *ngIf="getControl.period.errors?.maxlength">Maksimum 4 Karakter</div>
+        </div>
+      </div>
+
+      <input type="file" name="file" (change)="onFileChange($event)" />
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button type="submit" class="btn btn-outline-success">Ekle</button>
+    </div>
+  </div>
+</form>

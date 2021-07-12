@@ -1,0 +1,187 @@
+<!-- Modal -->
+<form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Urun Ekle</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <fieldset formGroupName="product">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Urun Ismi</label>
+            <input class="form-control" formControlName="name" />
+            <div
+              *ngIf="
+                (getControlProduct?.get('name')?.touched ||
+                  getControlProduct?.get('name')?.dirty) &&
+                getControlProduct?.get('name')?.invalid
+              "
+              class="text-danger"
+            >
+              <div *ngIf="getControlProduct?.get('name')?.errors?.required">
+                Zorunlu Alan
+              </div>
+              <div *ngIf="getControlProduct?.get('name')?.errors?.maxlength">
+                Maksimum 250 Karakter
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Kategori</label>
+            <select class="form-control" formControlName="categoryId">
+              <option value="0">Lutfen Bir Deger Seciniz</option>
+              <option *ngFor="let item of categories" [value]="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Kdv</label>
+            <select class="form-control" formControlName="vatId">
+              <option value="0">Lutfen Bir Deger Seciniz</option>
+              <option *ngFor="let item of vats" [value]="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                (getControlProduct?.get('vatId')?.touched ||
+                  getControlProduct?.get('vatId')?.dirty) &&
+                getControlProduct?.get('vatId')?.invalid
+              "
+              class="text-danger"
+            >
+              <div *ngIf="getControlProduct?.get('vatId')?.errors?.min">
+                Zorunlu Alan
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Olcu Birimi</label>
+            <select class="form-control" formControlName="unitOfMeasureId">
+              <option value="0">Lutfen Bir Deger Seciniz</option>
+              <option *ngFor="let item of unitOfMeasures" [value]="item.id">
+                {{ item.shortName }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                (getControlProduct?.get('unitOfMeasureId')?.touched ||
+                  getControlProduct?.get('unitOfMeasureId')?.dirty) &&
+                getControlProduct?.get('unitOfMeasureId')?.invalid
+              "
+              class="text-danger"
+            >
+              <div
+                *ngIf="getControlProduct?.get('unitOfMeasureId')?.errors?.min"
+              >
+                Zorunlu Alan
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Urun Tipi</label>
+            <select class="form-control" formControlName="productTypeId">
+              <option value="0">Lutfen Bir Deger Seciniz</option>
+              <option *ngFor="let item of productTypes" [value]="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                (getControlProduct?.get('productTypeId')?.touched ||
+                  getControlProduct?.get('productTypeId')?.dirty) &&
+                getControlProduct?.get('productTypeId')?.invalid
+              "
+              class="text-danger"
+            >
+              <div *ngIf="getControlProduct?.get('productTypeId')?.errors?.min">
+                Zorunlu Alan
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Urun Aciklamasi</label>
+            <input class="form-control" formControlName="description" />
+          </div>
+        </div>
+      </fieldset>
+      <fieldset formArrayName="productBarcodes">
+        <label
+          >Barkod:
+          <button
+            type="button"
+            (click)="addProductBarcodeFormArray()"
+            class="btn btn-outline-primary"
+          >
+            Ekle
+          </button>
+        </label>
+        <div
+          *ngFor="let productBarcode of productBarcodes.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <div class="form-row">
+              <div class="form-group col-md-10">
+                <input class="form-control" formControlName="barcode" />
+                <label
+                  *ngIf="
+                    productBarcodes.controls[i].get('barcode')?.errors
+                      ?.required &&
+                    isValidFormSubmitted != null &&
+                    !isValidFormSubmitted
+                  "
+                  class="text-danger"
+                >
+                  Barkod Zorunlu.
+                </label>
+                <label
+                  *ngIf="
+                    productBarcodes.controls[i].get('barcode')?.errors
+                      ?.maxlength &&
+                    isValidFormSubmitted != null &&
+                    !isValidFormSubmitted
+                  "
+                  class="text-danger"
+                >
+                  20 karakterden fazla olamaz
+                </label>
+              </div>
+              <div class="form-group col-md-2">
+                <button
+                  type="button"
+                  (click)="removeProductBarcodesFormArray(i)"
+                  class="btn btn-outline-danger"
+                >
+                  Sil
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          (click)="dismissModal()"
+          class="btn btn-outline-warning"
+        >
+          Iptal
+        </button>
+        <button type="submit" class="btn btn-outline-success">Duzenle</button>
+      </div>
+    </div>
+  </div>
+</form>

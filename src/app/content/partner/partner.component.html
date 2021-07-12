@@ -1,0 +1,56 @@
+<h4>
+  Yeni Sirket
+  <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+    Ekle
+  </button>
+</h4>
+<table class="table table-striped">
+  <thead>
+    <th>#</th>
+    <th>Sirket Ismi</th>
+    <th>Sirket Numarasi</th>
+    <th>Sirket Kdv Numarasi</th>
+    <th>Iletisim Ismi</th>
+    <th>Telefon Numarasi</th>
+    <th>Islemler</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of partners; trackBy: trackByFn">
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.uniqueIdentificationNumber }}</td>
+      <td>{{ item.vatNumber }}</td>
+      <td>{{ item.contactName }}</td>
+      <td>{{ item.phone }}</td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Partner Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Partner Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning mr-1"
+          (click)="openUpdateModal(item.id)"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Partner Detay"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-info mr-1"
+          (click)="openDetailModal(item.id)"
+        >
+          <i class="far fa-eye"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

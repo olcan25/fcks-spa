@@ -1,0 +1,124 @@
+<div class="row">
+  <div class="col-md-3">
+    <input #startDate type="date" class="form-control" />
+  </div>
+  <div class="col-md-3">
+    <input #endDate type="date" class="form-control" />
+  </div>
+  <div class="col-auto">
+    <button
+      type="submit"
+      class="btn btn-primary mb-3"
+      (click)="loadAllBetweenDate(startDate.value, endDate.value)"
+    >
+      Ara
+    </button>
+  </div>
+</div>
+<p-table
+  #dt
+  [value]="conditionOfAccounts"
+  sortMode="multiple"
+  dataKey="id"
+  styleClass="p-datatable-customers p-datatable-gridlines"
+  [rowTrackBy]="trackByFn"
+  styleClass="p-datatable-sm p-datatable-gridlines"
+>
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex">
+      <button
+        pButton
+        label="Clear"
+        class="p-button-outlined"
+        icon="pi pi-filter-slash"
+        class="btn btn-info"
+        (click)="clear(dt)"
+      >
+        Filteri Temzile
+      </button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="accountId">
+        <p-columnFilter
+          type="numeric"
+          field="accountId"
+          display="menu"
+        ></p-columnFilter>
+        Hesap No
+        <p-sortIcon field="accountId"></p-sortIcon>
+      </th>
+      <th pSortableColumn="accountName">
+        <p-columnFilter
+          type="text"
+          field="accountName"
+          display="menu"
+        ></p-columnFilter>
+        Hesap Ismi
+        <p-sortIcon field="accountName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="sumDebts">
+        <p-columnFilter
+          type="numeric"
+          field="sumDebts"
+          display="menu"
+        ></p-columnFilter>
+        Toplam Borc
+        <p-sortIcon field="sumDebts"></p-sortIcon>
+      </th>
+      <th pSortableColumn="sumCredits">
+        <p-columnFilter
+          type="numeric"
+          field="sumCredits"
+          display="menu"
+        ></p-columnFilter>
+        Toplam Alacak
+        <p-sortIcon field="sumCredits"></p-sortIcon>
+      </th>
+      <th pSortableColumn="balance">
+        <p-columnFilter
+          type="numeric"
+          field="balance"
+          display="menu"
+        ></p-columnFilter>
+        Bakiye
+        <p-sortIcon field="balance"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of cols" [ngSwitch]="col.field">
+        <input
+          class="form-control input-sm"
+          pInputText
+          type="text"
+          (keyup)="
+            dt.filter($any($event.target).value, col.field, col.filterMatchMode)
+          "
+        />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr [routerLink]="['/reports/cardofaccounts', item.accountId]">
+      <!-- <td *ngFor="let col of cols">
+              {{col.data ? (item[col.field]| date : col.format) : item[col.field]}}
+      </td> -->
+      <td>
+        {{ item.accountId }}
+      </td>
+      <td>
+        <p>{{ item.accountName }}</p>
+      </td>
+      <td class="font-weight-bold">
+        {{ item.sumDebt }}
+      </td>
+      <td class="font-weight-bold">
+        {{ item.sumCredit }}
+      </td>
+      <td class="font-weight-bold">
+        {{ item.balance }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

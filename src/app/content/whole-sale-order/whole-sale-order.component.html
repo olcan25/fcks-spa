@@ -1,0 +1,251 @@
+<section class="content">
+  <div class="container-fluid">
+    <h5 class="mb-2">Kayit Bilgi Kutucuklari</h5>
+    <div class="row">
+      <a
+        type="button"
+        [routerLink]="['create']"
+        class="col-md-3 col-sm-6 col-12"
+      >
+        <div class="info-box">
+          <span class="info-box-icon bg-warning"
+            ><i class="far fa-copy"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Yeni Kayit</span>
+            <span class="info-box-number">Ekle</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </a>
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-info"
+            ><i class="fas fa-barcode"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Kayit Sayisi</span>
+            <span class="info-box-number">{{ getWholeSaleOrders.length }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-success"
+            ><i class="far fa-flag"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Bookmarks</span>
+            <span class="info-box-number">410</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger"
+            ><i class="far fa-star"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Likes</span>
+            <span class="info-box-number">93,139</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+</section>
+<p-table
+  #dt
+  [value]="getWholeSaleOrders"
+  [rows]="10"
+  sortMode="multiple"
+  dataKey="id"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50, 100, 200, 500]"
+  styleClass="p-datatable-customers p-datatable-gridlines"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [rowTrackBy]="trackByFn"
+  styleClass="p-datatable-sm p-datatable-gridlines"
+>
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex">
+      <button
+        pButton
+        label="Clear"
+        class="p-button-outlined"
+        icon="pi pi-filter-slash"
+        class="btn btn-info"
+        (click)="clear(dt)"
+      >
+        Filteri Temzile
+      </button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="ledgerId">
+        <p-columnFilter
+          type="text"
+          field="ledgerId"
+          display="menu"
+        ></p-columnFilter>
+        ID
+        <p-sortIcon field="ledgerId"></p-sortIcon>
+      </th>
+      <th pSortableColumn="registerDate">
+        <p-columnFilter
+          type="date"
+          field="registerDate"
+          display="menu"
+        ></p-columnFilter>
+        Kayit Tarihi
+        <p-sortIcon field="registerDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="wholeSaleOrderNumber">
+        <p-columnFilter
+          pSortableColumn="wholeSaleOrderNumber"
+          type="text"
+          field="wholeSaleOrderNumber"
+          display="menu"
+        ></p-columnFilter>
+        Fatura No
+        <p-sortIcon field="wholeSaleOrderNumber"></p-sortIcon>
+      </th>
+      <th pSortableColumn="partnerName">
+        <p-columnFilter
+          type="text"
+          field="partnerName"
+          display="menu"
+        ></p-columnFilter>
+        Partner Ismi
+        <p-sortIcon field="partnerName"></p-sortIcon>
+      </th>
+      <!-- <th pSortableColumn="isPaid">
+        <p-columnFilter
+          type="boolean"
+          field="isPaid"
+          display="menu"
+        ></p-columnFilter>
+        Odendi Mi
+        <p-sortIcon field="isPaid"></p-sortIcon>
+      </th> -->
+      <th pSortableColumn="amount">
+        <p-columnFilter
+          type="numeric"
+          field="amount"
+          display="menu"
+        ></p-columnFilter>
+        KDV'siz Tutar
+        <p-sortIcon field="amount"></p-sortIcon>
+      </th>
+      <th pSortableColumn="amountVatValue">
+        <p-columnFilter
+          type="numeric"
+          field="amountVatValue"
+          display="menu"
+        ></p-columnFilter>
+        KDV Tutari
+        <p-sortIcon field="amountVatValue"></p-sortIcon>
+      </th>
+      <th pSortableColumn="amountWithVat">
+        <p-columnFilter
+          type="numeric"
+          field="amountWithVat"
+          display="menu"
+        ></p-columnFilter>
+        KDV'li Tutar
+        <p-sortIcon field="amountWithVat"></p-sortIcon>
+      </th>
+      <th>Islemeler</th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of cols" [ngSwitch]="col.field">
+        <input
+          class="form-control input-sm"
+          pInputText
+          type="text"
+          (keyup)="
+            dt.filter($any($event.target).value, col.field, col.filterMatchMode)
+          "
+        />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <!-- <td *ngFor="let col of cols">
+                {{col.data ? (item[col.field]| date : col.format) : item[col.field]}}
+        </td> -->
+      <td>
+        {{ item.ledgerId }}
+      </td>
+      <td>
+        {{ item.registerDate | date: "dd/MM/yyyy" }}
+      </td>
+      <td>
+        {{ item.wholeSaleOrderNumber }}
+      </td>
+      <td>
+        {{ item.partnerName }}
+      </td>
+      <!-- <td>
+        {{ item.isPaid ? "Odendi" : "Odenmedi" }}
+      </td> -->
+      <td>
+        {{ item.amount | number: "1.0-2" }}
+      </td>
+      <td>
+        {{ item.amountVatValue | number: "1.0-2" }}
+      </td>
+      <td>
+        {{ item.amountWithVat | number: "1.0-2" }}
+      </td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.id)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning mr-1"
+          routerLink="/wholesaleorders/update/{{ item.ledgerId }}"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Fatura"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-info mr-1"
+          (click)="generateInvoice(item.id)"
+        >
+          <i class="far fa-file-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

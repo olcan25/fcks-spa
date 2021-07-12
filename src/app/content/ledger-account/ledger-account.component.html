@@ -1,0 +1,236 @@
+<section class="content">
+  <div class="container-fluid">
+    <h5 class="mb-2">Kayit Bilgi Kutucuklari</h5>
+    <div class="row">
+      <a
+        type="button"
+        [routerLink]="['create']"
+        class="col-md-3 col-sm-6 col-12"
+      >
+        <div class="info-box">
+          <span class="info-box-icon bg-warning"
+            ><i class="far fa-copy"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Yeni Kayit</span>
+            <span class="info-box-number">Ekle</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </a>
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-info"
+            ><i class="fas fa-barcode"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Kayit Sayisi</span>
+            <span class="info-box-number">{{ ledgerAccounts.length }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-success"
+            ><i class="far fa-flag"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Bookmarks</span>
+            <span class="info-box-number">410</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-danger"
+            ><i class="far fa-star"></i
+          ></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Likes</span>
+            <span class="info-box-number">93,139</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+</section>
+
+<div class="row">
+  <div class="col-md-3">
+    <input #startDate type="date" class="form-control" />
+  </div>
+  <div class="col-md-3">
+    <input #endDate type="date" class="form-control" />
+  </div>
+  <div class="col-auto">
+    <button
+      type="submit"
+      class="btn btn-primary mb-3"
+      (click)="loadAllBetweenDate(startDate.value, endDate.value)"
+    >
+      Ara
+    </button>
+  </div>
+</div>
+
+<p-table
+  #dt
+  [value]="ledgerAccounts"
+  [rows]="10"
+  sortMode="multiple"
+  dataKey="id"
+  [showCurrentPageReport]="true"
+  styleClass="p-datatable-customers p-datatable-gridlines"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [rowTrackBy]="trackByFn"
+  styleClass="p-datatable-sm p-datatable-gridlines"
+>
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex">
+      <button
+        pButton
+        label="Clear"
+        class="p-button-outlined"
+        icon="pi pi-filter-slash"
+        class="btn btn-info"
+        (click)="clear(dt)"
+      >
+        Filteri Temzile
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="ledgerId">
+        <p-columnFilter
+          type="text"
+          field="ledgerId"
+          display="menu"
+        ></p-columnFilter>
+        ID
+        <p-sortIcon field="ledgerId"></p-sortIcon>
+      </th>
+      <th pSortableColumn="registerDate">
+        <p-columnFilter
+          type="date"
+          field="registerDate"
+          display="menu"
+        ></p-columnFilter>
+        Kayit Tarihi
+        <p-sortIcon field="registerDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="ledgerDescription">
+        <p-columnFilter
+          type="text"
+          field="ledgerDescription"
+          display="menu"
+        ></p-columnFilter>
+        Aciklama
+        <p-sortIcon field="ledgerDescription"></p-sortIcon>
+      </th>
+      <th pSortableColumn="debt">
+        <p-columnFilter
+          type="numeric"
+          field="debt"
+          display="menu"
+        ></p-columnFilter>
+        Borc
+        <p-sortIcon field="debt"></p-sortIcon>
+      </th>
+      <th pSortableColumn="credit">
+        <p-columnFilter
+          type="numeric"
+          field="credit"
+          display="menu"
+        ></p-columnFilter>
+        Alacak
+        <p-sortIcon field="credit"></p-sortIcon>
+      </th>
+      <th pSortableColumn="balance">
+        <p-columnFilter
+          type="numeric"
+          field="balance"
+          display="menu"
+        ></p-columnFilter>
+        Bakiye
+        <p-sortIcon field="balance"></p-sortIcon>
+      </th>
+      <th style="width: 8em">Islemeler</th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of cols" [ngSwitch]="col.field">
+        <input
+          class="form-control input-sm"
+          pInputText
+          type="text"
+          (keyup)="
+            dt.filter($any($event.target).value, col.field, col.filterMatchMode)
+          "
+        />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <!-- <td *ngFor="let col of cols">
+                {{col.data ? (item[col.field]| date : col.format) : item[col.field]}}
+        </td> -->
+      <td>
+        {{ item.ledgerId }}
+      </td>
+      <td>
+        {{ item.registerDate | date: "dd/MM/yyyy" }}
+      </td>
+      <td>
+        {{ item.ledgerDescription }}
+      </td>
+      <td>
+        {{ item.debt | number: "1.0-2" }}
+      </td>
+      <td>
+        {{ item.credit | number: "1.0-2" }}
+      </td>
+      <td>
+        {{ item.balance | number: "1.0-2" }}
+      </td>
+      <td>
+        <button
+          type="button"
+          ngbPopover="Alis Silme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-danger mr-1"
+          (click)="delete(item.ledgerId)"
+        >
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <button
+          type="button"
+          ngbPopover="Alis Duzenleme"
+          triggers="mouseenter:mouseleave"
+          class="btn btn-warning"
+          routerLink="/ledgeraccounts/update/{{ item.ledgerId }}"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

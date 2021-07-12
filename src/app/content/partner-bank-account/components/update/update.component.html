@@ -1,0 +1,78 @@
+<!-- Modal -->
+
+<form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Partner Hesap Ekle</h5>
+      <button type="button" class="close" (click)="dismissModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+          <label>Banka Ismi</label>
+          <select class="form-control" formControlName="bankId">
+            <option *ngFor="let bank of banks" [value]="bank.id">{{bank.name}}</option>
+            </select>
+            <div *ngIf="(getControl.bankId.touched||getControl.bankId.dirty) && getControl.bankId.invalid" class="text-danger">
+              <div *ngIf="getControl.bankId.errors?.min">Zorunlu Alan</div>
+            </div>
+        </div>
+    <div class="form-group">
+      <label>Partner Ismi</label>
+      <ng-select
+        [items]="partners"
+        bindLabel="name"
+        bindValue="id"
+        formControlName="partnerId"
+      >
+      </ng-select>
+      <div *ngIf="(getControl.partnerId.touched||getControl.partnerId.dirty) && getControl.partnerId.invalid" class="text-danger">
+        <div *ngIf="getControl.partnerId.errors?.min">Zorunlu Alan</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Hesap Numarasi</label>
+      <input
+        class="form-control"
+        formControlName="accountNumber"
+      />
+      <div *ngIf="(getControl.accountNumber.touched||getControl.accountNumber.dirty) && getControl.accountNumber.invalid" class="text-danger">
+        <div *ngIf="getControl.accountNumber.errors?.required">Zorunlu Alan</div>
+        <div *ngIf="getControl.accountNumber.errors?.maxlength || getControl.accountNumber.errors?.minlength">12 ile 25 Karakter Arasinda</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Iban Numarasi</label>
+      <input
+        class="form-control"
+        formControlName="iban"
+      />
+      <div *ngIf="(getControl.iban.touched||getControl.iban.dirty) && getControl.iban.invalid" class="text-danger">
+        <div *ngIf="getControl.iban.errors?.maxlength">Maksimum 8 Karakter</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Swift Kod</label>
+      <input
+        class="form-control"
+        formControlName="swiftCode"
+      />
+      <div *ngIf="(getControl.swiftCode.touched||getControl.swiftCode.dirty) && getControl.swiftCode.invalid" class="text-danger">
+        <div *ngIf="getControl.swiftCode.errors?.maxlength">Maksimum 12 Karakter</div>
+      </div>
+    </div>
+  </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        (click)="dismissModal()"
+        class="btn btn-outline-warning"
+      >
+        Iptal
+      </button>
+      <button type="submit" class="btn btn-outline-success">Duzenle</button>
+    </div>
+  </div>
+  </form>
+  
